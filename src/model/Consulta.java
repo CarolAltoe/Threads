@@ -7,13 +7,12 @@ public class Consulta extends Thread {
 	private String medico;
 	private String dia;
 	private String hora;
-	private Boolean plano;
+	private Integer plano;
 	
 	
 	public Consulta() {	}
 
-	public Consulta(Integer id, String paciente, String medico, String dia, String hora, Boolean plano) {
-		this.id = id;
+	public Consulta( String paciente, String medico, String dia, String hora, Integer plano) {
 		this.paciente = paciente;
 		this.medico = medico;
 		this.dia = dia;
@@ -53,10 +52,10 @@ public class Consulta extends Thread {
 	public void setHora(String hora) {
 		this.hora = hora;
 	}
-	public Boolean getPlano() {
+	public Integer getPlano() {
 		return plano;
 	}
-	public void setPlano(Boolean plano) {
+	public void setPlano(Integer plano) {
 		this.plano = plano;
 	}
 	

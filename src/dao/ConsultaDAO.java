@@ -17,7 +17,7 @@ public class ConsultaDAO extends Thread {
 	
 		Connection con;
 		
-		public ConsultaDAO(/*Consulta consulta*/){ 
+		public ConsultaDAO(){ 
 			ConnectionFactoryMySQL.getInstancia();
 			con = ConnectionFactoryMySQL.getConexao();	
 		}
@@ -36,6 +36,7 @@ public class ConsultaDAO extends Thread {
 				stmt.setString(2,c.getMedico());
 				stmt.setString(3,c.getDia());
 				stmt.setString(4,c.getHora());
+				stmt.setInt(5, c.getPlano());
 				stmt.executeUpdate();
 				JOptionPane.showMessageDialog(tela, "Consulta cadastrado com sucesso!");
 				
@@ -64,9 +65,11 @@ public class ConsultaDAO extends Thread {
 					c.setMedico(rs.getString("medico"));
 					c.setDia(rs.getString("dia"));
 					c.setHora(rs.getString("hora"));
-					c.setPlano(rs.getBoolean("plano"));
+					c.setPlano(rs.getInt("plano"));
 					consultas.add(c);
 				}
+				
+				System.out.println("passou do while");
 			} catch (SQLException e ){
 				System.out.println("Falha ao consultar dados. erro: "
 							+ e.getMessage());
@@ -74,8 +77,4 @@ public class ConsultaDAO extends Thread {
 			return consultas;
 		}
 
-		public Consulta[] ConsultarPorDescricao(String text) {
-			// TODO Auto-generated method stub
-			return null;
-		}
 }

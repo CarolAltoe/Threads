@@ -8,7 +8,6 @@ import javax.swing.JPanel;
 
 import controller.ConsultaController;
 
-import dao.ConsultaDAO;
 import model.Consulta;
 
 import javax.swing.JButton;
@@ -16,7 +15,9 @@ import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+
 
 public class CadastraConsulta extends Thread{
 
@@ -66,7 +67,7 @@ public class CadastraConsulta extends Thread{
 		frmCadastro = new JFrame();
 		frmCadastro.getContentPane().setBackground(new Color(255, 128, 128));
 		frmCadastro.setBounds(100, 100, 358, 441);
-		frmCadastro.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmCadastro.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frmCadastro.getContentPane().setLayout(null);
 		
 		JPanel panel = new JPanel();
@@ -78,23 +79,30 @@ public class CadastraConsulta extends Thread{
 		JButton btnSair = new JButton("Cadastrar");
 		btnSair.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// ver se pode tirar id do contrutor para não ter que cadastrar também
-				Integer id = 0; 
 				String paciente = txtPaciente.getText();
 				String medico = txtMedico.getText();
 				String dia = txtData.getText();
 				String hora = txtHora.getText();
-				Boolean plano = txtPlano.getAutoscrolls(); // ver se isso ta certo
+				String op =  txtPlano.getText().toLowerCase();
+				Integer plano = 0;
 				
-				Consulta consulta = new Consulta(id, paciente, medico, dia, hora, plano);
-				ConsultaController thread = new ConsultaController();
+				if(op.equals("sim")) {
+					plano = 1;
+				} else if (op.equals("não")) {
+					plano = 0;
+				} else {
+					JOptionPane.showMessageDialog( txtPlano, "Valor Inválido.\nEspera-se sim ou não." );
+				}
+				
+				Consulta consulta = new Consulta( paciente, medico, dia, hora, plano);
+				ConsultaController thread = new ConsultaController(true);
 				thread.run(consulta);
 				frmCadastro.dispose();
 			}
 		});
 		btnSair.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnSair.setBackground(new Color(128, 128, 255));
-		btnSair.setBounds(218, 359, 102, 35);
+		btnSair.setBounds(221, 348, 102, 35);
 		panel.add(btnSair);
 		
 		JLabel lblTexto = new JLabel("Cadatro de Consultas:");
@@ -150,11 +158,13 @@ public class CadastraConsulta extends Thread{
 		txtHora.setColumns(10);
 		txtHora.setBounds(93, 254, 230, 29);
 		panel.add(txtHora);
-		
+	
 		txtPlano = new JTextField();
 		txtPlano.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txtPlano.setColumns(10);
 		txtPlano.setBounds(93, 309, 230, 29);
 		panel.add(txtPlano);
+		
+		
 	}
 }

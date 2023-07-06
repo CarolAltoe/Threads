@@ -9,18 +9,14 @@ public class SistemaMarcacaoConsultas {
 	public static void main(String[] args) {
 		System.out.println("Hello World!");
 
-		//ConsultaThread consulta = new ConsultaThread();
+		ConsultaController consulta = new ConsultaController(true);
 		TelaThread tela = new TelaThread();
 		
-		//consulta.start();
+		consulta.start();
 		tela.start();
-/*
-		try {
-			Thread.sleep(30000);// 30 segundos
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-*/
+		
+		tela.getFrame().setVisible(true);
+
 		//consulta.pararExecussao();
 
 	}

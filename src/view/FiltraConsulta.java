@@ -7,6 +7,7 @@ import java.awt.Color;
 import javax.swing.JPanel;
 
 import controller.ConsultaController;
+import model.Consulta;
 
 import javax.swing.JButton;
 import java.awt.Font;
@@ -47,12 +48,14 @@ public class FiltraConsulta extends Thread{
 			}
 		});
 	}
-	/*
+	
 	private void atualizaBusca() {
-		ConsultaDAO cd = new ConsultaDAO();
+		//ConsultaDAO cd = new ConsultaDAO();
+		ConsultaController thread = new ConsultaController(true);
+		System.out.println("status thread:" + thread.isRodando());
 		DefaultTableModel modelo = (DefaultTableModel)table.getModel();
 		modelo.setNumRows(0);
-		for(Consulta c: cd.ConsultarPorDescricao(txtPaciente.getText())) {
+		for(Consulta c: thread.ConsultarPorPaciente(txtPaciente.getText())) {
 			modelo.addRow(new Object[] {
 					c.getId(),
 					c.getPaciente(),
@@ -62,7 +65,7 @@ public class FiltraConsulta extends Thread{
 					c.getPlano()
 		});
 		}
-	}*/
+	}
 
 	/**
 	 * Create the application.
@@ -78,7 +81,7 @@ public class FiltraConsulta extends Thread{
 		frmFiltrar = new JFrame();
 		frmFiltrar.getContentPane().setBackground(new Color(255, 128, 128));
 		frmFiltrar.setBounds(100, 100, 586, 441);
-		frmFiltrar.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmFiltrar.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frmFiltrar.getContentPane().setLayout(null);
 		
 		JPanel panel = new JPanel();
@@ -90,8 +93,7 @@ public class FiltraConsulta extends Thread{
 		JButton btnFiltrar = new JButton("Filtrar");
 		btnFiltrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ConsultaController thread = new ConsultaController();
-				thread.run();
+				atualizaBusca();
 			}
 		});
 		btnFiltrar.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -120,6 +122,7 @@ public class FiltraConsulta extends Thread{
 		panel.add(scrollPane);
 		
 		table = new JTable();
+		scrollPane.setViewportView(table);
 		table.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		table.setModel(new DefaultTableModel(
 			new Object[][] {
@@ -129,18 +132,7 @@ public class FiltraConsulta extends Thread{
 				"Id Consulta", "Paciente", "Medico", "Data", "Hora", "Plano"
 			}
 		));
-		scrollPane.setViewportView(table);
-		
-		JButton btnExibirTodos = new JButton("Exibir Todos");
-		btnExibirTodos.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				ConsultaController thread = new ConsultaController();
-				thread.run();
-			}
-		});
-		btnExibirTodos.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnExibirTodos.setBackground(new Color(128, 128, 255));
-		btnExibirTodos.setBounds(431, 14, 111, 37);
-		panel.add(btnExibirTodos);
+		table.getColumnModel().getColumn(1).setPreferredWidth(112);
+		table.setAutoCreateRowSorter(true);
 	}
 }

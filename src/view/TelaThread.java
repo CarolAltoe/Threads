@@ -19,6 +19,14 @@ public class TelaThread extends Thread{
 
 	private JFrame frame;
 
+	public JFrame getFrame() {
+		return frame;
+	}
+
+	public void setFrame(JFrame frame) {
+		this.frame = frame;
+	}
+
 	/**
 	 * Launch the application.
 	 */
@@ -85,8 +93,9 @@ public class TelaThread extends Thread{
 		JButton btnSair = new JButton("Sair");
 		btnSair.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ConsultaController consulta = new ConsultaController();
+				ConsultaController consulta = new ConsultaController(true);
 				consulta.pararExecussao();
+				frame.dispose();
 			}
 		});
 		btnSair.setFont(new Font("Tahoma", Font.PLAIN, 14));
